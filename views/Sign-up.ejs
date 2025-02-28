@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#273461">
+    <title>BTECHLINK</title>
+    <link rel="icon" type="image/png" href="../image/AlumniLogo.jpg">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body class="font-sans select-none">
+
+    <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-red-white lg:max-w-full lg:h-full">
+
+        <!--Left Side-->
+        <div class="w-full m-7 mb-0 lg:w-90 lg:mx-auto lg:my-auto 2xl:w-110">
+            <div class="flex items-start justify-start mx-auto">
+                <img class="w-auto h-26" src="../image/AlumniLogo.jpg" alt="BTECH Alumni Logo" />
+            </div>
+            <p class="mt-2 text-3xl font-bold text-start text-gray-600">
+                Create Account!
+            </p>
+            <p class="mt-1 text-start font-light leading-4 text-gray-600">
+                Short quote here! Short quote here! <br />
+                Sign up to your account!
+            </p>
+            <!--Form-->
+            <form class="register">
+                <div class="flex justify-between gap-1 mt-4">
+                    <div class="">
+                        <label class="block text-sm text-gray-600">First Name</label>
+                        <input
+                            class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300 placeholder:text-gray-400 placeholder:font-light"
+                            type="text" id="firstname" placeholder="Juan" />
+                    </div>
+                    <div class="">
+                        <label class="block text-sm text-gray-600">Last Name</label>
+                        <input
+                            class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300 placeholder:text-gray-400 placeholder:font-light"
+                            type="text" id="lastname" placeholder="Dela Cruz" />
+                    </div>
+                </div>
+                <label class="block text-sm text-gray-600 mt-1">Email or Student ID</label>
+                <input
+                    class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
+                    type="text" id="email" placeholder="20221232@btech.ph.education" />
+
+
+                <div class="relative">
+                    <label class="block text-sm text-gray-600 mt-1">Password</label>
+                    <input
+                        class="block w-full px-4 py-2 pr-10 text-gray-700 bg-white border border-gray-400 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300 password-field"
+                        id="password" type="password" />
+                    <span class="absolute top-8 right-4 ml-1 cursor-pointer toggle-password">
+                        <!--ShowHideSVG-->
+                        <svg class="h-auto w-5 text-gray-500 toggle-password-icon" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            class="size-6 text-gray-600">
+                            <!--without-->
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </span>
+                </div>
+
+
+
+                <!--Error Message-->
+                <div class="flex justify-start mt-1 text-xs text-red-600 fils">
+                    
+                    <!--Invalid Email or Student ID.-->
+                    <!--Invalid verification code.-->
+                </div>
+
+
+                <div class="mt-4">
+                    <button type="submit"
+                        class="cursor-pointer w-full px-6 py-[10px] text-md font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#273461] rounded-lg hover:bg-[#304384] focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+                        SIGN - UP
+                    </button>
+                </div>
+                <div class="flex items-center justify-between mt-3">
+                    <span class="w-1/4 mx-auto border-b border-gray-400"></span>
+                    <div class="text-xs text-gray-500">Or sign in with</div>
+                    <span class="w-1/4 mx-auto border-b border-gray-400"></span>
+                </div>
+                <a href="#"
+                    class="flex items-center justify-center mt-3 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-100">
+                    <div class="flex items-center justify-center pr-2 py-2">
+                        <svg class="w-6 h-6" viewBox="0 0 40 40">
+                            <path
+                                d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                                fill="#FFC107" />
+                            <path
+                                d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
+                                fill="#FF3D00" />
+                            <path
+                                d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
+                                fill="#4CAF50" />
+                            <path
+                                d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                                fill="#1976D2" />
+                        </svg>
+                    </div>
+                    <span class="text-sm"> Sign up with Google </span>
+                </a>
+                <div class="mt-3 flex justify-center items-center">
+                    <p class="text-xs text-gray-500">
+                        Already have an account?
+                        <a class="text-xs text-blue-500 cursor-pointer hover:underline" href="Sign-in.html">Sign in</a>
+                    </p>
+                </div>
+            </form>
+            <p class="block text-center text-[10px] text-gray-400 my-6 ">
+                © 2025 BTECH. All rights reserved.
+            </p>
+        </div>
+
+        <!--Right Side-->
+        <div class="hidden lg:block lg:h-screen px-10 py-5 lg:w-1/2">
+            <img src="https://btech.edu.ph/wp-content/uploads/2021/06/slide1.jpg" alt="Description of image"
+                class="w-full h-full border-none rounded-2xl object-cover" />
+        </div>
+    </div>
+    <script src="../script/authentication.js"></script>
+    <script>
+        // DOMContentLoaded
+         $(document).ready(function() {
+            console.log('runnnnn');
+            $('.register').submit(sendd);
+        });
+
+        function sendd(event){
+            event.preventDefault();
+            //get data and bind
+            const user = {
+                user_firstname: $('#firstname').val().trim(),
+                user_lastname: $('#lastname').val().trim(),
+                user_email: $('#email').val().trim(),
+                user_password: $('#password').val().trim()
+            }
+
+            let errr = false;
+            $('.fils').html('');
+
+            //validate
+            Object.entries(user).forEach(([key, value]) => {
+                if(value === ""){
+                    errr = true;
+                }
+            });
+            
+            if(!errr){
+                //send data
+                $.ajax({
+                url: "/user/create",
+                type: "POST",
+                data: user,
+                dataType: "json",
+                beforeSend: function () {
+                    console.log('loading');
+                },
+                success: function(response) {
+                    console.log(response);
+                    if(response.exist){
+                        $('.fils').html('User Already Exist');
+                    } else {
+                        if(response.value === true){
+                            window.location.href = "/user/verify";
+                        }
+                    }
+                },
+                complete: function () {
+                    console.log('DONE');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+                });
+            } else if (errr) {
+                $('.fils').html('Fill in all fields!');
+            }
+        }
+    </script>
+</body>
+
+</html>
