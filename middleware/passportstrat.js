@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcryptjs'); 
 //const {userclasscontrol} = require('../controller/usercontroller');
 const {user} = require('../model');
+const { where } = require('sequelize');
 
 module.exports = function (passport) {
     // Local Strategy
@@ -10,7 +11,7 @@ module.exports = function (passport) {
         new LocalStrategy({ usernameField: "user_email", passwordField: 'user_password', }, async (email, password, done) => {
             //
             try {
-                const userdata = await user.findOne({where: {user_email: email}});
+                const userdata = await user.findOne({where: {user_email: email, user_loggedstrat: 'LOCALSTRAT'}});
                 
                 if (!userdata) return done(null, false, { message: "User not found" });
 
@@ -34,18 +35,27 @@ module.exports = function (passport) {
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
-                    let userdata3 = await user.findOne({ googleId: profile.id });
+                    let userdata3 = await user.findOne({where: { user_ID: profile.id }});
 
-                    if (!userdata3) {
-                        user = new User({
-                            googleId: profile.id,
-                            name: profile.displayName,
-                            email: profile.emails[0].value,
-                        });
-                        await user.save();
+                    if (!userdata3) { //if no user register
+                        userdata3 = await user.findOne({where: { user_email: profile.emails[0].value }}); //find by email (to determine in localstrat)
+                        if(!userdata3){
+                            userdata3 = await user.create({ //reuse the variable to use both register and login
+                                user_ID: profile.id,
+                                user_firstname: profile.name.givenName,
+                                user_lastname: profile.name.familyName || "", // Handle missing last names
+                                user_password: "",
+                                user_email: profile.emails[0].value,
+                                user_status: 'ACTIVE',
+                                user_loggedstrat: 'GOOGLE' // Correct enum value
+                            });
+                        } else if(userdata3) {
+                            console.log("Email Already In Use - Blocking Google Login");
+                            return done(null, false, { message: "Email Already In Use" });
+                        }
                     }
 
-                    return done(null, user);
+                    return done(null, userdata3); //log in
                 } catch (err) {
                     return done(err);
                 }

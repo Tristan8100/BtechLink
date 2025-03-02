@@ -19,7 +19,7 @@ users.get('/verify', sessionemail, (req, res)=>{ //sessionemail
 })
 
 users.get('/dashboard', (req, res, next)=>{
-    res.render('NewPwd');
+    res.render('try');
 })
 
 //api endpoint
@@ -34,6 +34,15 @@ users.post('/login', passport.authenticate('local', {
     failureRedirect: '/user/login?failedd',
     failureFlash: true
 }));
+
+users.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+users.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/user/login?notttt' }), 
+    (req, res) => {
+        res.redirect('/user/dashboard'); // Redirect after successful login
+    }
+);
 
 
 //logger
