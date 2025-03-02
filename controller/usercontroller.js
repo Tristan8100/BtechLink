@@ -1,6 +1,7 @@
 const {user} = require('../model');
 const bcrypt = require('bcrypt'); //for hashing
 const nodemailer = require("nodemailer"); //install FIRST
+const { where } = require('sequelize');
 
 class userclasscontrol {
 
@@ -64,6 +65,76 @@ class userclasscontrol {
             
         } catch (err) {
             return false;
+        }
+    }
+
+    static async resend (req, res, next){
+        try {
+            const codee = Math.floor(1000 + Math.random() * 9000);
+            const val = await user.update(
+                { 
+                    user_code: codee
+                },
+                {
+                    where: {
+                        user_email: req.session.email
+                    }
+                }
+            );
+
+            if(val){
+                //send email
+                const val3 = await userclasscontrol.sendverification(req.session.email, codee);
+                if(val3){
+                    return res.json({value: val3, success: true});
+                }
+            }
+        } catch (err) {
+            res.status(500).json({ error: `BAD REQ ${err} (resend)` });
+        }
+    }
+
+    static async verifycode(req, res, next){
+        console.log('herereeerere');
+        console.log(req.body.value);
+        console.log(req.session.email);
+        try {
+            const val = await user.findOne({
+                where: {
+                    user_code: req.body.value,
+                    user_email: req.session.email
+                }
+            })
+
+            if(val){
+                const updatedAt = new Date(val.updatedAt);
+                const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000); // 10 minutes ago
+
+                if (updatedAt >= tenMinutesAgo) {
+                    const val1 = await user.update(
+                        { 
+                            user_status: "ACTIVE", 
+                            user_code: ""
+                        },
+                        {
+                            where: {
+                                user_code: req.body.value,
+                                user_email: req.session.email
+                            }
+                        }
+                    );
+
+                    if(val1){
+                        return res.json({value: 'Success', success: true})
+                    }
+                } else {
+                    return res.json({value: 'code expired', success: false})
+                }
+            } else {
+                return res.json({value: 'not found', success: false})
+            }
+        } catch (err) {
+            res.json({value: 'errorrrrr', success: false, error: err})
         }
     }
 

@@ -73,6 +73,11 @@ function getOTP() {
       }, 3000); // 3 seconds before fade out
     }
 
+    //trigger success
+    if (document.referrer.includes('/user/verify')) {
+        startFadeOut();
+    }
+
     //TRISTAN: REMINDER: ACCESS THE PARAMETER QUERY TO TOGGLE startFadeOut
     //startFadeOut();
 

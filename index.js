@@ -10,12 +10,11 @@
 // initialize packages
 const express = require('express'); // initialize express
 const session = require('express-session'); // for session ID;
-//require('./model');
-
+const passport = require('passport');
+const flash = require('express-flash');
 
 //initialize express
 const app = express();
-
 
 //client id: 30179596393-qjkg5kmakkdmuj4j2s4t07t8s9pqhg2o.apps.googleusercontent.com
 //client secret: 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
@@ -25,7 +24,10 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(flash());
 
+//app.use(flash());
+require("dotenv").config();
 
 // Session Middleware Configuration
 app.use(session({
@@ -34,6 +36,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+require("./middleware/passportstrat")(passport);
+app.use(passport.initialize());
+app.use(passport.session());
   
 
 //routes

@@ -27,11 +27,11 @@
 
 
             <!--Form-->
-            <form>
+            <form class="codes">
                 <div class="flex gap-2 xl:gap-3 mt-5 justify-center items-center">
                     <input type="text" maxlength="1"
                         class="otp-input shadow-xs flex w-12 h-12 items-center justify-center rounded-lg border border-gray-500 bg-white text-gray-500 text-center text-3xl outline-none  " />
-                    <input type="text" maxlength="1"
+                    <inputv type="text" maxlength="1"
                         class="otp-input shadow-xs flex w-12 h-12 items-center justify-center rounded-lg border border-gray-500 bg-white  text-gray-500 text-center text-3xl  outline-none  " />
                     <input type="text" maxlength="1"
                         class="otp-input shadow-xs flex w-12 h-12 items-center justify-center rounded-lg border border-gray-500 bg-white  text-gray-500 text-center text-3xl  outline-none  " />
@@ -46,7 +46,7 @@
                 <div class=" flex justify-start items-start mt-1">
                     <p class="text-xs text-gray-500 mr-1">
                         Didn't get a code?
-                    <div class="text-xs text-blue-500 cursor-pointer hover:underline">Resend</div>
+                    <div class="text-xs text-blue-500 cursor-pointer hover:underline resend">Resend</div>
                     </p>
                 </div>
 
@@ -57,12 +57,9 @@
 
 
                 <div class="mt-4">
-                    <button
+                    <button type="submit"
                         class="w-full px-6 py-[10px] text-md font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#273461] rounded-lg hover:bg-[#304384] focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                        <a href="Sign-in.html">
-                            Verify
-                            <!--REMOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ANCHOR TAG-->
-                        </a>
+                        Verify
                     </button>
                 </div>
 
@@ -92,6 +89,74 @@
     </div>
 
     <script src="../script/authentication.js"></script>
+    <script>
+        // DOMContentLoaded
+        $(document).ready(function() {
+            console.log('runnnnn');
+            $('.codes').submit(sendcode);
+            $('.resend').click(resendcode);
+        });
+
+        function sendcode(event){
+            event.preventDefault();
+            value = '';
+            let err = false;
+            $('.otp-input').each(function () {
+                value += $(this).val();
+            })
+
+            //send to route
+            $.ajax({
+                url: "/user/verify",
+                type: "POST",
+                data: {value}, //make object
+                dataType: "json",
+                beforeSend: function () {
+                    console.log('loading');
+                },
+                success: function(response) {
+                    console.log(response);
+                    if(response.success === false){
+                        console.log(response.value);
+                        console.log(response.err);
+                    } else {
+                        if(response.success === true){
+                            console.log('success all');
+                            window.location.href = "/user/login";
+                        }
+                    }
+                },
+                complete: function () {
+                    console.log('DONE');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+        function resendcode(){
+            //send to route
+                $.ajax({
+                url: "/user/verify/resend",
+                type: "GET",
+                beforeSend: function () {
+                    console.log('loading');
+                },
+                success: function(response) {
+                    console.log(response.success);
+                    console.log('success all');
+                },
+                complete: function () {
+                    console.log('DONE');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+    </script>
 </body>
 
 </html>
