@@ -22,6 +22,11 @@ users.get('/dashboard', (req, res, next)=>{
     res.render('try');
 })
 
+users.get('/forgot', (req, res, next)=>{
+    res.render('ForgotPassword');
+})
+
+
 //api endpoint
 users.post('/verify', sessionemail, userclasscontrol.verifycode)
 
@@ -29,12 +34,16 @@ users.get('/verify/resend', sessionemail, userclasscontrol.resend)
 
 users.post('/create', (userclasscontrol.selectemail));
 
+users.post('/forgot', (userclasscontrol.forgotpassfirst));
+
+//local strategy
 users.post('/login', passport.authenticate('local', {
     successRedirect: '/user/dashboard',
     failureRedirect: '/user/login?failedd',
     failureFlash: true
 }));
 
+//google auth
 users.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 users.get('/auth/google/callback', 

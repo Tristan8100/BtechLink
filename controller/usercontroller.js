@@ -138,6 +138,61 @@ class userclasscontrol {
         }
     }
 
+    static async forgotpassfirst(req, res){
+        try {
+            const code = Math.floor(1000 + Math.random() * 9000);
+            const val1 = await user.update(
+                {  
+                    user_code: code
+                },
+                {
+                    where: {
+                        user_email: req.body.user_email,
+                        user_loggedstrat: "LOCALSTRAT",
+                    }
+                }
+            );
+
+            if(val1[0] > 0){
+                const val3 = await userclasscontrol.forgotpass(req.body.user_email, code);
+                if(val3){
+                    return res.json({value: 'We Have Send You OTP on your Email!!', success: true})
+                }
+            } else {
+                return res.json({ value: 'Email not found!', success: false });
+            }
+            
+        } catch (err) {
+            res.json({value: 'server err', success: false, error: err})
+        }
+    }
+
+    static async forgotpass(email, code) {
+        try {
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "gtristan543@gmail.com",  // sender email
+                    pass: "beyd fvmz dhdl xkcb"   // email password or App Password
+                }
+            });
+    
+            // Email details
+            const mailOptions = {
+                from: "gtristan543@gmail.com",
+                to: email,  // recipient
+                subject: "Reset Your Password",
+                text: `Your Verification Code is ${code}`
+            };
+
+            await transporter.sendMail(mailOptions);
+            return true;
+            
+        } catch (err) {
+            return false;
+        }
+    }
+
 }
 
 module.exports = {userclasscontrol};
