@@ -82,7 +82,7 @@ class userclasscontrol {
                 }
             );
 
-            if(val){
+            if(val[0] > 0){ //UPDATED
                 //send email
                 const val3 = await userclasscontrol.sendverification(req.session.email, codee);
                 if(val3){
@@ -124,7 +124,8 @@ class userclasscontrol {
                         }
                     );
 
-                    if(val1){
+                    if(val1[0] > 0){ //UPDATED
+                        delete req.session.email;
                         return res.json({value: 'Success', success: true})
                     }
                 } else {
@@ -140,7 +141,7 @@ class userclasscontrol {
 
     static async forgotpassfirst(req, res){
         try {
-            const code = Math.floor(1000 + Math.random() * 9000);
+            const code = Math.floor(100000 + Math.random() * 900000);
             const val1 = await user.update(
                 {  
                     user_code: code
@@ -155,6 +156,7 @@ class userclasscontrol {
 
             if(val1[0] > 0){
                 const val3 = await userclasscontrol.forgotpass(req.body.user_email, code);
+                req.session.email = req.body.user_email;
                 if(val3){
                     return res.json({value: 'We Have Send You OTP on your Email!!', success: true})
                 }
@@ -190,6 +192,47 @@ class userclasscontrol {
             
         } catch (err) {
             return false;
+        }
+    }
+
+    static async verifycodereset(req, res, next){
+        console.log(req.body.user_code);
+        console.log(req.session.email);
+        try {
+            const val = await user.findOne({
+                where: {
+                    user_code: req.body.user_code,
+                    user_email: req.session.email
+                }
+            })
+
+            if(val){
+                const updatedAt = new Date(val.updatedAt);
+                const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000); // 10 minutes ago
+
+                if (updatedAt >= tenMinutesAgo) {
+                    const val1 = await user.update(
+                        { 
+                            user_code: ""
+                        },
+                        {
+                            where: {
+                                user_email: req.session.email
+                            }
+                        }
+                    );
+
+                    if(val1){
+                        return res.json({value: 'Success', success: true})
+                    }
+                } else {
+                    return res.json({value: 'code expired', success: false})
+                }
+            } else {
+                return res.json({value: 'not found', success: false})
+            }
+        } catch (err) {
+            res.json({value: 'errorrrrr', success: false, error: err})
         }
     }
 

@@ -26,6 +26,14 @@ users.get('/forgot', (req, res, next)=>{
     res.render('ForgotPassword');
 })
 
+users.get('/forgotverify', sessionemail, (req, res, next)=>{
+    res.render('ForgotpwVerification');
+})
+
+users.get('/resetpassword', sessionemail, (req, res, next)=>{
+    res.render('NewPwd');
+})
+
 
 //api endpoint
 users.post('/verify', sessionemail, userclasscontrol.verifycode)
@@ -35,6 +43,9 @@ users.get('/verify/resend', sessionemail, userclasscontrol.resend)
 users.post('/create', (userclasscontrol.selectemail));
 
 users.post('/forgot', (userclasscontrol.forgotpassfirst));
+
+users.post('/forgotverify', (userclasscontrol.verifycodereset));
+
 
 //local strategy
 users.post('/login', passport.authenticate('local', {

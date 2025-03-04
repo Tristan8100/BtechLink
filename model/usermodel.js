@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 'LOCALSTRAT',
       },
+      user_role: {
+        type: DataTypes.ENUM('ADMIN', 'USER'),
+        allowNull: false,
+        defaultValue: 'USER',
+      },
     });
   
     User.associate = (models) => {
