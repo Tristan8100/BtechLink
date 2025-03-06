@@ -46,6 +46,8 @@ users.post('/forgot', (userclasscontrol.forgotpassfirst));
 
 users.post('/forgotverify', (userclasscontrol.verifycodereset));
 
+users.post('/changepass', (userclasscontrol.changepassword));
+
 
 //local strategy
 users.post('/login', passport.authenticate('local', {

@@ -26,7 +26,7 @@
             </p>
 
             <!--Form-->
-            <form>
+            <form class="newpass">
                 <div class="relative">
                     <label class="block text-sm text-gray-600 mt-5">New password</label>
                     <input id="new-password" class=" block w-full px-4 py-2 pr-10 text-gray-700 bg-white border border-gray-400 rounded-lg
@@ -67,16 +67,14 @@
                 </div>
 
                 <!--Error Message-->
-                <div class="flex justify-start mt-1 text-xs text-red-600">
-                    Passwords do not match. Please try again.
+                <div class="flex justify-start mt-1 text-xs text-red-600 fils">
+                    Passwords...
                 </div>
 
                 <div class="mt-4">
-                    <button
+                    <button type="submit"
                         class="w-full px-6 py-[10px] text-md font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#273461] rounded-lg hover:bg-[#304384] focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                        <a href="Sign-in.html">
-                            Continue<!--REMOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ANCHOR TAG-->
-                        </a>
+                        Continue
                     </button>
                 </div>
 
@@ -100,6 +98,76 @@
 
 
     <script src="../script/authentication.js"></script>
+    <script>
+        // DOMContentLoaded
+        $(document).ready(function() {
+            console.log('runnnnn');
+            $('.newpass').submit(sendd);
+        });
+
+        function sendd(event){
+            event.preventDefault();
+
+            let errr = false;
+            let mess = "";
+            $('.fils').html('');
+
+            //validate pass
+            if($('#re-enter-password').val().trim() === "" || $('#new-password').val().trim() === ""){
+                errr = true;
+                mess = "Fill all Fields";
+            }
+
+            //8 letter pass
+            if($('#re-enter-password').val().trim().length < 8 || $('#new-password').val().trim().length < 8){
+                errr = true;
+                mess = "Password Should Be 8 Letters";
+            }
+
+            //compare pass
+            if($('#re-enter-password').val().trim() != $('#new-password').val().trim()){
+                errr = true;
+                mess = "Password Don't Match";
+            }
+
+
+            //get data and bind
+            const user = {
+                user_password: $('#re-enter-password').val().trim()
+            }
+
+            console.log(user);
+
+            
+            if(!errr){
+                //send data
+                $.ajax({
+                url: "/user/changepass",
+                type: "POST",
+                data: user,
+                dataType: "json",
+                beforeSend: function () {
+                    console.log('loading');
+                },
+                success: function(response) {
+                    console.log(response);
+                   //
+                   if(response.success){
+                        window.location.href = "/user/login";
+                   }
+                },
+                complete: function () {
+                    console.log('DONE');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+                });
+            } else if (errr) {
+                $('.fils').html(mess);
+            }
+        }
+    </script>
 </body>
 
 </html>

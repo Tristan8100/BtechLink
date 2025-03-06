@@ -223,16 +223,38 @@ class userclasscontrol {
                     );
 
                     if(val1){
-                        return res.json({value: 'Success', success: true})
+                        return res.json({value: 'Success', success: true});
                     }
                 } else {
-                    return res.json({value: 'code expired', success: false})
+                    return res.json({value: 'code expired', success: false});
                 }
             } else {
-                return res.json({value: 'not found', success: false})
+                return res.json({value: 'not found', success: false});
             }
         } catch (err) {
-            res.json({value: 'errorrrrr', success: false, error: err})
+            res.json({value: 'errorrrrr', success: false, error: err});
+        }
+    }
+
+    static async changepassword(req, res, next){
+        try {
+            const hashedPassword = await bcrypt.hash(req.body.user_password, 10);
+            const val1 = await user.update(
+                { 
+                    user_password: hashedPassword
+                },
+                {
+                    where: {
+                        user_email: req.session.email
+                    }
+                }
+            );
+            if(val1){
+                delete req.session.email;
+                return res.json({value: 'Success', success: true});
+            }
+        } catch (err) {
+            res.json({value: 'errorrrrr', success: false, error: err});
         }
     }
 

@@ -74,7 +74,7 @@ function getOTP() {
     }
 
     //trigger success
-    if (document.referrer.includes('/user/verify')) {
+    if (document.referrer.includes('/user/verify') || document.referrer.includes('/user/resetpassword')) {
         startFadeOut();
     }
 

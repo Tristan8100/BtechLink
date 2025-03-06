@@ -3,6 +3,11 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    await queryInterface.addColumn("User", "user_role", {
+      type: Sequelize.ENUM("ADMIN", "USER"),
+      allowNull: false,
+      defaultValue: "USER",
+    });
     /**
      * Add altering commands here.
      *
